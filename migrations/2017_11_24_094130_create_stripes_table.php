@@ -19,7 +19,7 @@ class CreateStripesTable extends Migration
             $table->string('account_id')->nullable();
             $table->string('customer_id')->nullable();
 
-            $table->integer('user_id')->uuid()->index();
+            $table->uuid('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
