@@ -112,6 +112,7 @@ class StripeConnect
      */
     public static function transaction($token = null)
     {
+        self::prepare();
         return new Transaction($token);
     }
 }
