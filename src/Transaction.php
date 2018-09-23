@@ -101,8 +101,10 @@ class Transaction
      */
     public function create($params = [])
     {
-        // Prepare vendor
-        $vendor = StripeConnect::createAccount($this->to, $this->to_params);
+        if( !is_null( $this->to ) ){
+            // Prepare vendor
+            $vendor = StripeConnect::createAccount($this->to, $this->to_params);    
+        }
         // Prepare customer
         if ($this->saved_customer) {
             $customer = StripeConnect::createCustomer($this->token, $this->from, $this->from_params);
@@ -114,9 +116,9 @@ class Transaction
         return Charge::create(array_merge([
             "amount" => $this->value,
             "currency" => $this->currency,
-            "destination" => [
+            "destination" => $this->to ? [
                 "account" => $vendor->account_id,
-            ],
+            ] : null,
             "application_fee" => $this->fee ?? null,
         ], $params));
     }
